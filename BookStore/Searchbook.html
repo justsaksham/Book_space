@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <style type="text/css">
+        body{
+            background-image: url("booksystem.jpg");;
+        }
+       div {
+margin: 10px;
+padding: 10px;
+
+        }
+        p{
+           font-family: "Times New Roman", Times, serif;
+           font-size: 20px;
+            font-weight: bold;
+        }
+        .div2{
+          background: white;
+        }
+        .info{
+          color: white;
+           font-size: 24px;
+        }
+        h1{
+          color: white;
+          margin-top: 30px;
+        }
+    </style>
+  <body>
+    <center>
+    <h1>Search Book</h1>
+    </center>
+    <div class="s130">
+     <center>
+
+        <div class="inner-form">
+          <div class="input-field first-wrap">
+            <div class="svg-wrapper">
+            </div>
+            <input type="text" id="bsearch" placeholder="Search books..." />
+          </div>
+          <div class="input-field second-wrap">
+            <button class="btn-search" type="submit" onclick="submitBook()">SEARCH</button>
+          </div>
+        </div>
+        <span class="info">Read Books,Be a Genius</span>
+     </center>
+    </div>
+    <div id="allBooks">
+
+</div>
+    <script type="text/javascript">
+     function submitBook(){
+      var xhr = new XMLHttpRequest();
+    var url = "http://127.0.0.1:9000/BookStore/getBooksByName";
+    xhr.open("post", url, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    xhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
+    xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+   
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
+            console.log(json);
+            if(json.result==="failure"){
+          alert("No book found to be display");
+        }
+       else
+        createTemplate(json)
+        }
+    };
+    
+   
+    var getbooksByName={
+      "bookName":document.getElementById("bsearch").value
+    };
+   
+    
+    
+    var data = JSON.stringify(
+    getbooksByName
+    );
+    xhr.send(data);
+    }
+    function createTemplate(json){
+      document.getElementById("allBooks").innerHTML="";
+    let div=document.createElement("div");
+    let Res=json.map.data
+    console.log(Res);
+    for(let i=0;i<Res.length;i++){
+    let div2=document.createElement("div");
+    div2.setAttribute("id",Res[i].Id);
+    div2.setAttribute("class","div2")
+    let id=document.createElement("p");
+    id.innerHTML="ID: "+Res[i].Id;
+    let name=document.createElement("p");
+    name.innerHTML="BookName : "+Res[i].BookName;
+    let AuthorName=document.createElement("p");
+    AuthorName.innerHTML="AuthorName : "+Res[i].AuthorName;
+    let Price=document.createElement("p");
+    Price.innerHTML="Price : "+Res[i].price;
+    let Des=document.createElement("p");
+    Des.innerHTML="Description : "+Res[i].description;
+    let Publisher=document.createElement("p");
+    Publisher.innerHTML="Publisher : "+Res[i].publisher
+     div2.appendChild(id);
+    div2.appendChild(name);
+    div2.appendChild(AuthorName);
+    div2.appendChild(Price);
+    div2.appendChild(Des);
+    div2.appendChild(Publisher);
+
+    div2.style.border = "2px solid Tomato"
+    
+   // div2.style.backgroundColor = "red"
+    console.log(Publisher)
+    console.log(div2);
+
+    document.getElementById("allBooks").appendChild(div2);
+    }
+    
+}
+    
+    </script>
+  </body>
+</html>

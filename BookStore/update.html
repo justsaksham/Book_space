@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<style>body {
+  background-image: url('abc2.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+		label {
+  font-size:25px;
+  width:200px;
+  display: inline-block;
+};
+h1 {
+  
+  font-family: verdana;
+  font-size: 300%;
+
+};
+	</style>
+</head>
+<body>
+	<center><h1>Update Book</h1></center>
+	<br>
+	<br>
+	<br>
+	<center>
+	<label>ID : </label><input type="number" id="uid"/>
+	<br>
+	<br>
+	<label>Book Name : </label><input type="text" id="name"/>
+	<br>
+	<br>
+	<label>Author Name : </label><input type="text" id="authorName"/>
+	<br>
+	<br>
+	<label>Book Price : </label><input type="text" id="price"/>
+	<br>
+	<br>
+	<label>Book Publisher : </label><input type="text" id="publisher"/>
+	<br>
+	<br>
+	<label>Book Description : </label><input type="text" id="desc"/>
+	<br>
+	<br>
+	<button onclick="updateBook()">Update</button>
+	</center>
+
+</body>
+<script type="text/javascript">
+function updateBook(){
+var xhr = new XMLHttpRequest();
+var url = "http://127.0.0.1:9000/BookStore/update";
+xhr.open("put", url, true);
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+xhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
+xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json);
+        if(json.result==="failure"){
+        	alert("No book found to be update");
+        }
+        else{
+        	alert("Book is updated");
+        }
+    }
+};
+
+
+
+var updateBook={
+    "book":{
+    "Id":document.getElementById("uid").value,
+    "BookName":document.getElementById("name").value,
+    "AuthorName":document.getElementById("authorName").value,
+    "description":document.getElementById("desc").value,
+    "price":document.getElementById("price").value,
+    "publisher":document.getElementById("publisher").value
+
+}
+,
+"key":"123"
+}
+var data = JSON.stringify(
+updateBook
+);
+xhr.send(data);
+}
+</script>
+</html>

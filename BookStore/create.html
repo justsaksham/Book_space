@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		 Button{
+        background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+    }
+	body{ 
+		background-image: url("books.png");
+		color: white;
+		}
+	</style>
+</head>
+
+<body>
+
+<body background="CB.jpg">
+    <h1 style="text-align:center"> ENTER BOOK DETAILS</h1>
+    <br><br>
+    <form method="post" style="text-align:center">
+     <tr>
+            <td>
+            <h2>Enter book name</h2> <input type=text name=bname placeholder="Enter book name" id="name" size="25">
+            </td>
+   
+            <td>
+                <h2>Enter the Author name</h2> <input type=text name=authorname placeholder=" Enter Author name" id="authorName" size="25" >
+            </td>
+			
+			<td>
+                <h2>Enter Book Price</h2> <input type=text name=authorname placeholder=" Enter Author name" id="price" size="25" >
+            </td>
+			
+			<td>
+                <h2>Enter Publisher</h2> <input type=text name=authorname placeholder=" Enter Author name" id="publisher" size="25" >
+            </td>
+            
+        <td>
+                <h2>Enter Book Desc</h2> <input type=text name=price placeholder="Enter the Desc" id="desc" size="25" >
+        </td>
+		 <br><br><br><br>
+		 
+        
+		</form>
+        <center>
+<button onclick="submitBook()">submit</button>
+
+</center>
+
+
+
+
+
+<script type="text/javascript">
+function submitBook(){	
+	var xhr = new XMLHttpRequest();
+var url = "http://127.0.0.1:9000/BookStore/create";
+xhr.open("post", url, true);
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+xhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
+xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        console.log(json);
+		alert("Book is added successfully");
+    }
+};
+
+var cBook={
+    "book":{
+   
+    "BookName":document.getElementById("name").value,
+    "AuthorName":document.getElementById("authorName").value,
+    "description":document.getElementById("price").value,
+    "price":document.getElementById("publisher").value,
+    "publisher":document.getElementById("desc").value
+
+}
+,
+"key":"123"
+}
+
+var data = JSON.stringify(
+cBook
+);
+console.log(data);
+xhr.send(data);
+}
+
+</script>
+</body>
+</html>
